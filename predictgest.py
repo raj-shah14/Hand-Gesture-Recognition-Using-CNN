@@ -5,6 +5,14 @@ import sys,argparse
 from glob import glob
 import time
 
+
+c_frame=-1
+p_frame=-1
+
+#Setting threshold for number of frames to compare
+thresholdframes=50
+
+
 ## Let us restore the saved model 
 sess = tf.Session()
 # Step-1: Recreate the network graph. At this step only graph is created.
@@ -45,7 +53,7 @@ def predict(frame,y_test_images):
     ### Creating the feed_dict that is required to be fed to calculate y_pred 
     feed_dict_testing = {x: x_batch, y_true: y_test_images}
     result=sess.run(y_pred, feed_dict=feed_dict_testing)
-    # result is of this format [probabiliy_of_rose probability_of_sunflower]
+    # result is of this format [probabiliy_of gest0,......,probability_of_gest9]
     return np.array(result)
 
 ####TestData prediction
@@ -82,11 +90,6 @@ def predict(frame,y_test_images):
 ##    if k == 99:
 ##        continue
    
-
-
-
-
-# First, pass the path of the image
 #Open Camera object
 cap = cv2.VideoCapture(0)
 
@@ -95,7 +98,8 @@ cap.set(4, 700)
 cap.set(5, 400)
 
 h,s,v = 150,150,150
-while(1):
+i=0
+while(i<1000000):
     ret, frame = cap.read()
         
     cv2.rectangle(frame, (300,300), (100,100), (0,255,0),0)
@@ -109,27 +113,9 @@ while(1):
     
     #Create a binary image with where white will be skin colors and rest is black
     mask2 = cv2.inRange(hsv,np.array([2,50,50]),np.array([15,255,255]))
-
-#    kernel_square = np.ones((11,11),np.uint8)
-#    kernel_ellipse= cv2.getStructuringElement(cv2.MORPH_ELLIPSE,(5,5))
-
-    
-    #Perform morphological transformations to filter out the background noise
-    #Dilation increase skin color area
-    #Erosion increase skin color area
-##    dilation = cv2.dilate(mask2,kernel_ellipse,iterations = 1)
-##    erosion = cv2.erode(dilation,kernel_square,iterations = 1)    
-##    dilation2 = cv2.dilate(erosion,kernel_ellipse,iterations = 1)    
-##    filtered = cv2.medianBlur(dilation2,5)
-##    kernel_ellipse= cv2.getStructuringElement(cv2.MORPH_ELLIPSE,(8,8))
-##    dilation2 = cv2.dilate(filtered,kernel_ellipse,iterations = 1)
-##    kernel_ellipse= cv2.getStructuringElement(cv2.MORPH_ELLIPSE,(5,5))
-##    dilation3 = cv2.dilate(filtered,kernel_ellipse,iterations = 1)
-##    median = cv2.medianBlur(dilation2,5)
-##    ret,thresh = cv2.threshold(median,127,255,0)
     med=cv2.medianBlur(mask2,5)
     
-
+    ##Displaying frames
     cv2.imshow('main',frame)
     cv2.imshow('masked',med)
 
@@ -148,13 +134,29 @@ while(1):
     np.set_printoptions(formatter={'float_kind':'{:f}'.format})
     ##printing index of max prob value
     ans=predict(med,y_test_images)
-    print(ans)
-    print(np.argmax(max(ans)))
+    #print(ans)
+    #print(np.argmax(max(ans)))
+
+    #Comparing for 50 continuous frames
+    c_frame=np.argmax(max(ans))
+    if(c_frame==p_frame):
+        counter=counter+1
+        p_frame=c_frame
+        if (counter==thresholdframes):
+            print(ans)
+            print("Gesture:"+str(c_frame))
+            counter=0
+            i=0
+    else:
+        p_frame=c_frame
+        counter=0
     
  #close the output video by pressing 'ESC'
     k = cv2.waitKey(2) & 0xFF
     if k == 27:
         break
+    i=i+1
+    
 cap.release()
 cv2.destroyAllWindows()
 
