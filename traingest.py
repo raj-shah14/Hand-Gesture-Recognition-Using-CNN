@@ -23,7 +23,7 @@ num_classes = len(classes)
 validation_size = 0.2
 img_size = 50
 num_channels = 3
-train_path='C:/Users/Raj Shah/Downloads/cv-tricks.com-master/Tensorflow-tutorials/tutorial-2-image-classifier/Traindata'
+train_path='C:/Users/Raj Shah/Downloads/AHD_Project/Traindata'
 
 # We shall load all the training and validation images and labels into memory using openCV and use that during training
 data = dataset.read_train_sets(train_path, img_size, classes, validation_size=validation_size)
@@ -216,7 +216,7 @@ def train(num_iteration):
             epoch = int(i / int(data.train.num_examples/batch_size))    
             
             show_progress(epoch, feed_dict_tr, feed_dict_val, val_loss)
-            saver.save(session, 'C:/Users/Raj Shah/Downloads/cv-tricks.com-master/Tensorflow-tutorials/tutorial-2-image-classifier/handgest_1') 
+            saver.save(session, 'C:/Users/Raj Shah/Downloads/AHD_Project/handgest_1') 
 
 
     total_iterations += num_iteration

@@ -1,2 +1,2 @@
-model_checkpoint_path: "C:/Users/Raj Shah/Downloads/cv-tricks.com-master/Tensorflow-tutorials/tutorial-2-image-classifier/handgest_1"
-all_model_checkpoint_paths: "C:/Users/Raj Shah/Downloads/cv-tricks.com-master/Tensorflow-tutorials/tutorial-2-image-classifier/handgest_1"
+model_checkpoint_path: "C:/Users/Raj Shah/Downloads/AHD_Project/handgest_1"
+all_model_checkpoint_paths: "C:/Users/Raj Shah/Downloads/AHD_Project/handgest_1"

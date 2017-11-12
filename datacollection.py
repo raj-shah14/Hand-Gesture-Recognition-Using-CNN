@@ -7,11 +7,11 @@ import os
 
 
 #Creaing folder for data
-file_path="C:/Users/Raj Shah/Downloads/AHD_Hand_Detection-master/data/Testdata"
+file_path="C:/Users/Raj Shah/Downloads/AHD_Project/data/Testdata"
 if not os.path.exists(file_path):
     os.makedirs(file_path)
 
-path="C:/Users/Raj Shah/Downloads/AHD_Hand_Detection-master/data/Testdata"
+path="C:/Users/Raj Shah/Downloads/AHD_Project/data/Testdata"
 #Open Camera object
 cap = cv2.VideoCapture(0)
 

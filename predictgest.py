@@ -16,7 +16,7 @@ thresholdframes=50
 ## Let us restore the saved model 
 sess = tf.Session()
 # Step-1: Recreate the network graph. At this step only graph is created.
-saver = tf.train.import_meta_graph('C:/Users/Raj Shah/Downloads/cv-tricks.com-master/Tensorflow-tutorials/tutorial-2-image-classifier/handgest_1.meta')
+saver = tf.train.import_meta_graph('C:/Users/Raj Shah/Downloads/AHD_Project/handgest_1.meta')
 # Step-2: Now let's load the weights saved using the restore method.
 saver.restore(sess, tf.train.latest_checkpoint('./'))
 
